@@ -2,7 +2,7 @@
 
 ### Описание
 
-[*Здесь &rarr;*](https://tsverkunov.github.io/russian-travel/ "Mesta") Проект Mesto - покажет тебе твое место:)
+[*Здесь &rarr;*](https://tsverkunov.github.io/mesto/ "Mesta") Проект Mesto - покажет тебе твое место:)
 Эксклюзивные места России в одном месте.
 
 ***
