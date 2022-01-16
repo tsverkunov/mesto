@@ -1,0 +1,6 @@
+.profile__pen {
+  background: url("../../../images/edit-button.svg") no-repeat center;
+  background-size: cover;
+  width: 7.5px;
+  height: 7.5px;
+}
