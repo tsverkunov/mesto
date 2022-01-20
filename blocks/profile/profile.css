@@ -11,5 +11,6 @@
     flex-direction: row;
     justify-content: space-between;
     text-align: left;
+    padding: 40px 0 51px;
   }
 }

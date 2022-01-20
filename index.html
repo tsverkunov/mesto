@@ -18,82 +18,81 @@
     <header class="header">
       <img src="images/logo.svg" alt="логотип" class="header__logo">
     </header>
-    <section class="profile">
+    <main class="profile">
       <div class="profile__avatar-info-group">
         <img src="images/img_min/avatar.jpg" alt="фото" class="profile__avatar">
         <div class="profile__info">
           <div class="profile__name-wrap">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <div class="profile__edit-button">
-              <div class="profile__pen"></div>
-            </div>
+            <button type="submit" class="profile__edit-button" aria-label="edit"></button>
           </div>
           <p class="profile__about">Исследователь океана</p>
         </div>
       </div>
-      <div class="profile__add-button">
+      <button type="submit" class="profile__add-button" aria-label="add">
         <img src="images/plus_icon.svg" class="profile__add-button-icon" alt="плюс">
-      </div>
-    </section>
+      </button>
+    </main>
     <section class="cards">
-      <div class="cards__item">
-        <img src="images/img_min/karachaevsk-kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Карачаевск</h2>
-          <div class="cards__heart"></div>
+      <article class="card">
+        <img src="images/img_min/karachaevsk-kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Карачаевск</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
-      <div class="cards__item">
-        <img src="images/img_min/baikal-unsplash.jpg" alt="Байкал" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Байкал</h2>
-          <div class="cards__heart"></div>
+      </article>
+      <article class="card">
+        <img src="images/img_min/baikal-unsplash.jpg" alt="Байкал" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Байкал</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
-      <div class="cards__item">
-        <img src="images/img_min/dombai-kirill-pershin-1556355-unsplash.jpg" alt="Домбай" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Домбай</h2>
-          <div class="cards__heart"></div>
+      </article>
+      <article class="card">
+        <img src="images/img_min/dombai-kirill-pershin-1556355-unsplash.jpg" alt="Домбай" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Домбай</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
-      <div class="cards__item">
-        <img src="images/img_min/elbrus-kirill-pershin-1404681-unsplash.jpg" alt="Эльбрус" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Гора Эльбрус</h2>
-          <div class="cards__heart"></div>
+      </article>
+      <article class="card">
+        <img src="images/img_min/elbrus-kirill-pershin-1404681-unsplash.jpg" alt="Эльбрус" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Гора Эльбрус</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
-      <div class="cards__item">
-        <img src="images/img_min/metro.jpg" alt="Столица" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Столица</h2>
-          <div class="cards__heart"></div>
+      </article>
+      <article class="card">
+        <img src="images/img_min/metro.jpg" alt="Столица" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Столица</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
-      <div class="cards__item">
-        <img src="images/img_min/volga.jpg" alt="Волга" class="cards__image">
-        <div class="cards__title-wrap">
-          <h2 class="cards__title">Волга</h2>
-          <div class="cards__heart"></div>
+      </article>
+      <article class="card">
+        <img src="images/img_min/volga.jpg" alt="Волга" class="card__image">
+        <div class="card__title-wrap">
+          <h2 class="card__title">Волга</h2>
+          <button type="submit" class="card__heart" aria-label="like"></button>
         </div>
-      </div>
+      </article>
     </section>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
     <div class="popup">
-        <form class="popup__form">
-          <img class="popup__close-button" src="images/close-icon.svg" alt="закрыть">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <input type="text" class="popup__field popup__field_name" value="">
-          <input type="text" class="popup__field popup__field_about" value="">
-          <button class="popup__button-submit">Сохранить</button>
+      <div class="popup__container">
+        <button type="submit" class="popup__close-button" aria-label="close"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form" name="send-profile" method="POST" action="">
+          <input type="text" name="name" class="popup__field popup_field_name" value="">
+          <input type="text" name="about" class="popup__field popup_field_about" value="">
+          <button type="submit" class="popup__button-submit">Сохранить</button>
         </form>
+      </div>
     </div>
   </div>
 </div>
-
 <script src="scripts/index.js"></script>
 </body>
 </html>
