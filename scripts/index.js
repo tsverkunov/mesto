@@ -80,6 +80,8 @@ function formSubmitHandlerCards(e, popup) {
     nameInputAddCards.value = ''
     linkInputAddCards.value = ''
   }
+  nameInputAddCards.value = ''
+  linkInputAddCards.value = ''
   closePopup(popup)
 }
 
