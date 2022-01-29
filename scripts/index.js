@@ -44,33 +44,18 @@ const initialCards = [
 const cardTemplate = document.querySelector('#card-template').content
 const cards = document.querySelector('.cards')
 
-function renderCard(item) {
+function cloneCard(item) {
   const newCard = cardTemplate.querySelector('.card').cloneNode(true)
   newCard.querySelector('.card__image').src = item.link
   newCard.querySelector('.card__image').alt = item.name
   newCard.querySelector('.card__title').textContent = item.name
-  cards.append(newCard)
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
   const likeButton = newCard.querySelector('.card__heart')
   likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
+  return newCard
 }
 
-initialCards.forEach(renderCard)
-
-
-// const cardsArray = []
-//
-// function cloneCards() {
-//   for (let i = 0; i < initialCards.length; i++) {
-//     cardsArray.push(cardTemplate.querySelector('.card').cloneNode(true))
-//     cardsArray[i].querySelector('.card__image').src = initialCards[i].link
-//     cardsArray[i].querySelector('.card__image').alt = initialCards[i].name
-//     cardsArray[i].querySelector('.card__title').textContent = initialCards[i].name
-//     cards.append(cardsArray[i])
-//   }
-// }
-//
-// cloneCards()
+initialCards.forEach((card) => cards.append(cloneCard(card)))
 
 function saveInput() {
   nameInput.value = profileName.textContent
@@ -86,10 +71,10 @@ function formSubmitHandlerProfile(e, popup) {
 
 function formSubmitHandlerCards(e, popup) {
   e.preventDefault()
-  renderCard({
+  cards.prepend(cloneCard({
     name: nameInputAddCards.value,
     link: linkInputAddCards.value
-  })
+  }))
   closePopup(popup)
   nameInputAddCards.value = ''
   linkInputAddCards.value = ''
@@ -106,34 +91,10 @@ function closePopup(popup) {
 
 editButton.addEventListener('click', () => openPopup(popup))
 addButtonAddCards.addEventListener('click', () => openPopup(popupAddCards))
-
 closeButton.addEventListener('click', () => closePopup(popup))
 closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
 formElement.addEventListener('submit', () => formSubmitHandlerProfile(event, popup))
 formElementAddCards.addEventListener('submit', () => formSubmitHandlerCards(event, popupAddCards))
-
-// const addLikeButtons = Array.from(document.querySelectorAll('.card__heart'))
-// addLikeButtons.forEach(likeButton => likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active')))
-
-// console.log(cardsArray)
-// function deleteCard () {
-//   let result = cardsArray.filter(card => {
-//      return  card.name === card.name && card.link === card.link
-//   })
-//   cloneCards(result)
-// }
-// function deleteCard(e) {
-  // if (e.target === e.currentTarget) {
-  //
-  // }
-  // console.log(e.target)
-  // console.log(e.currentTarget)
-  // cloneCards(result)
-// }
-
-// const deleteButtons = Array.from(document.querySelectorAll('.card__delete-button'))
-// deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', deleteCard))
-
 
 function closePopupWithoutButton(popup) {
   popup.addEventListener('click', (e) => {
