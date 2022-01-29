@@ -71,13 +71,16 @@ function formSubmitHandlerProfile(e, popup) {
 
 function formSubmitHandlerCards(e, popup) {
   e.preventDefault()
-  cards.prepend(cloneCard({
-    name: nameInputAddCards.value,
-    link: linkInputAddCards.value
-  }))
+  if (nameInputAddCards.value && linkInputAddCards.value) {
+    cards.prepend(cloneCard({
+      name: nameInputAddCards.value,
+      link: linkInputAddCards.value
+    }))
+    closePopup(popup)
+    nameInputAddCards.value = ''
+    linkInputAddCards.value = ''
+  }
   closePopup(popup)
-  nameInputAddCards.value = ''
-  linkInputAddCards.value = ''
 }
 
 function openPopup(popup) {
