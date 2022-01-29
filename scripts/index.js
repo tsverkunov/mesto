@@ -14,9 +14,6 @@ let nameInputAddCards = document.querySelector('#popup__field_type_name-add-card
 let linkInputAddCards = document.querySelector('#popup__field_type_link-add-cards')
 const addButtonAddCards = document.querySelector('.profile__add-button')
 
-const cardTemplate = document.querySelector('#card-template').content
-const cards = document.querySelector('.cards')
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -44,18 +41,36 @@ const initialCards = [
   }
 ]
 
-const cardsArray = []
+const cardTemplate = document.querySelector('#card-template').content
+const cards = document.querySelector('.cards')
 
-function cloneCards() {
-  for (let i = 0; i < initialCards.length; i++) {
-    cardsArray.push(cardTemplate.querySelector('.card').cloneNode(true))
-    cardsArray[i].querySelector('.card__image').src = initialCards[i].link
-    cardsArray[i].querySelector('.card__title').textContent = initialCards[i].name
-    cards.append(cardsArray[i])
-  }
+function renderCard(item) {
+  const newCard = cardTemplate.querySelector('.card').cloneNode(true)
+  newCard.querySelector('.card__image').src = item.link
+  newCard.querySelector('.card__image').alt = item.name
+  newCard.querySelector('.card__title').textContent = item.name
+  cards.append(newCard)
+  newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
+  const likeButton = newCard.querySelector('.card__heart')
+  likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
 }
 
-cloneCards()
+initialCards.forEach(renderCard)
+
+
+// const cardsArray = []
+//
+// function cloneCards() {
+//   for (let i = 0; i < initialCards.length; i++) {
+//     cardsArray.push(cardTemplate.querySelector('.card').cloneNode(true))
+//     cardsArray[i].querySelector('.card__image').src = initialCards[i].link
+//     cardsArray[i].querySelector('.card__image').alt = initialCards[i].name
+//     cardsArray[i].querySelector('.card__title').textContent = initialCards[i].name
+//     cards.append(cardsArray[i])
+//   }
+// }
+//
+// cloneCards()
 
 function saveInput() {
   nameInput.value = profileName.textContent
@@ -71,13 +86,10 @@ function formSubmitHandlerProfile(e, popup) {
 
 function formSubmitHandlerCards(e, popup) {
   e.preventDefault()
-  initialCards.unshift(
-    {
-      name: nameInputAddCards.value,
-      link: linkInputAddCards.value
-    }
-  )
-  cloneCards()
+  renderCard({
+    name: nameInputAddCards.value,
+    link: linkInputAddCards.value
+  })
   closePopup(popup)
   nameInputAddCards.value = ''
   linkInputAddCards.value = ''
@@ -99,6 +111,29 @@ closeButton.addEventListener('click', () => closePopup(popup))
 closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
 formElement.addEventListener('submit', () => formSubmitHandlerProfile(event, popup))
 formElementAddCards.addEventListener('submit', () => formSubmitHandlerCards(event, popupAddCards))
+
+// const addLikeButtons = Array.from(document.querySelectorAll('.card__heart'))
+// addLikeButtons.forEach(likeButton => likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active')))
+
+// console.log(cardsArray)
+// function deleteCard () {
+//   let result = cardsArray.filter(card => {
+//      return  card.name === card.name && card.link === card.link
+//   })
+//   cloneCards(result)
+// }
+// function deleteCard(e) {
+  // if (e.target === e.currentTarget) {
+  //
+  // }
+  // console.log(e.target)
+  // console.log(e.currentTarget)
+  // cloneCards(result)
+// }
+
+// const deleteButtons = Array.from(document.querySelectorAll('.card__delete-button'))
+// deleteButtons.forEach(deleteButton => deleteButton.addEventListener('click', deleteCard))
+
 
 function closePopupWithoutButton(popup) {
   popup.addEventListener('click', (e) => {
