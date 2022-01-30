@@ -1,4 +1,4 @@
-const popup = document.querySelector('.popup')
+const popupProfile = document.querySelector('.popup')
 const closeButton = document.querySelector('.popup__close-button')
 const formElement = document.querySelector('.popup__form')
 let nameInput = document.querySelector('.popup__field_type_name')
@@ -13,6 +13,11 @@ const formElementAddCards = document.querySelector('#popup__form-add-cards')
 let nameInputAddCards = document.querySelector('#popup__field_type_name-add-cards')
 let linkInputAddCards = document.querySelector('#popup__field_type_link-add-cards')
 const addButtonAddCards = document.querySelector('.profile__add-button')
+
+const closeButtonImage = document.querySelector('#popup__close-button-image')
+const popupImage = document.querySelector('#popup-image')
+const figureImage = document.querySelector('.popup__image')
+const imageCaption = document.querySelector('.popup__image-caption')
 
 const initialCards = [
   {
@@ -52,6 +57,13 @@ function cloneCard(item) {
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
   const likeButton = newCard.querySelector('.card__heart')
   likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
+  newCard.querySelector('.card__image')
+    .addEventListener('click', () => {
+      figureImage.src = item.link
+      figureImage.alt = item.name
+      imageCaption.textContent = item.name
+      openPopup(popupImage)
+    })
   return newCard
 }
 
@@ -86,7 +98,6 @@ function formSubmitHandlerCards(e, popup) {
 }
 
 function openPopup(popup) {
-  saveInput()
   popup.classList.add('popup_opened')
 }
 
@@ -94,12 +105,16 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened')
 }
 
-editButton.addEventListener('click', () => openPopup(popup))
+editButton.addEventListener('click', () => {
+  saveInput()
+  openPopup(popupProfile)
+})
 addButtonAddCards.addEventListener('click', () => openPopup(popupAddCards))
-closeButton.addEventListener('click', () => closePopup(popup))
+closeButton.addEventListener('click', () => closePopup(popupProfile))
 closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
-formElement.addEventListener('submit', () => formSubmitHandlerProfile(event, popup))
+formElement.addEventListener('submit', () => formSubmitHandlerProfile(event, popupProfile))
 formElementAddCards.addEventListener('submit', () => formSubmitHandlerCards(event, popupAddCards))
+closeButtonImage.addEventListener('click', () => closePopup(popupImage))
 
 function closePopupWithoutButton(popup) {
   popup.addEventListener('click', (e) => {
@@ -109,6 +124,7 @@ function closePopupWithoutButton(popup) {
   })
 }
 
-closePopupWithoutButton(popup)
+closePopupWithoutButton(popupProfile)
 closePopupWithoutButton(popupAddCards)
+closePopupWithoutButton(popupImage)
 saveInput()
