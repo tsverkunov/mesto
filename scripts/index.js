@@ -1,8 +1,8 @@
-const popupProfile = document.querySelector('.popup')
-const closeButton = document.querySelector('.popup__close-button')
-const formElement = document.querySelector('.popup__form')
-const nameInput = document.querySelector('.popup__field_type_name')
-const aboutInput = document.querySelector('.popup__field_type_about')
+const popupProfile = document.querySelector('#popup-profile')
+const closeButton = document.querySelector('#popup__close-button-profile')
+const formElement = document.querySelector('#popup__form-profile')
+const nameInput = document.querySelector('#popup__field_type_name-profile')
+const aboutInput = document.querySelector('#popup__field_type_about-profile')
 const profileName = document.querySelector('.profile__name')
 const profileAbout = document.querySelector('.profile__about')
 const editButton = document.querySelector('.profile__edit-button')
@@ -19,46 +19,21 @@ const popupImage = document.querySelector('#popup-image')
 const figureImage = document.querySelector('.popup__image')
 const imageCaption = document.querySelector('.popup__image-caption')
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]
+
 
 const cardTemplate = document.querySelector('#card-template').content
 const cards = document.querySelector('.cards')
 
 function cloneCard(item) {
   const newCard = cardTemplate.querySelector('.card').cloneNode(true)
-  newCard.querySelector('.card__image').src = item.link
-  newCard.querySelector('.card__image').alt = item.name
+  const cardImage = newCard.querySelector('.card__image')
+  cardImage.src = item.link
+  cardImage.alt = item.name
   newCard.querySelector('.card__title').textContent = item.name
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
   const likeButton = newCard.querySelector('.card__heart')
   likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
-  newCard.querySelector('.card__image')
-    .addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
       figureImage.src = item.link
       figureImage.alt = item.name
       imageCaption.textContent = item.name
@@ -69,31 +44,27 @@ function cloneCard(item) {
 
 initialCards.forEach((card) => cards.append(cloneCard(card)))
 
-function saveInput() {
+function fillProfileForm() {
   nameInput.value = profileName.textContent
   aboutInput.value = profileAbout.textContent
 }
 
-function formSubmitHandlerProfile(e, popup) {
+function handleSubmitProfileForm(e, popup) {
   e.preventDefault()
   profileName.textContent = nameInput.value
   profileAbout.textContent = aboutInput.value
   closePopup(popup)
 }
 
-function formSubmitHandlerCards(e, popup) {
+function handleSubmitCardsForm(e, popup) {
   e.preventDefault()
   if (nameInputAddCards.value && linkInputAddCards.value) {
     cards.prepend(cloneCard({
       name: nameInputAddCards.value,
       link: linkInputAddCards.value
     }))
-    closePopup(popup)
-    nameInputAddCards.value = ''
-    linkInputAddCards.value = ''
   }
-  nameInputAddCards.value = ''
-  linkInputAddCards.value = ''
+  formElementAddCards.reset()
   closePopup(popup)
 }
 
@@ -106,14 +77,14 @@ function closePopup(popup) {
 }
 
 editButton.addEventListener('click', () => {
-  saveInput()
+  fillProfileForm()
   openPopup(popupProfile)
 })
 addButtonAddCards.addEventListener('click', () => openPopup(popupAddCards))
 closeButton.addEventListener('click', () => closePopup(popupProfile))
 closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
-formElement.addEventListener('submit', () => formSubmitHandlerProfile(event, popupProfile))
-formElementAddCards.addEventListener('submit', () => formSubmitHandlerCards(event, popupAddCards))
+formElement.addEventListener('submit', (e) => handleSubmitProfileForm(e, popupProfile))
+formElementAddCards.addEventListener('submit', (e) => handleSubmitCardsForm(e, popupAddCards))
 closeButtonImage.addEventListener('click', () => closePopup(popupImage))
 
 function closePopupWithoutButton(popup) {
@@ -127,4 +98,3 @@ function closePopupWithoutButton(popup) {
 closePopupWithoutButton(popupProfile)
 closePopupWithoutButton(popupAddCards)
 closePopupWithoutButton(popupImage)
-saveInput()

@@ -41,12 +41,12 @@
     </footer>
     <div class="popup" id="popup-profile">
       <div class="popup__container">
-        <button type="button" class="popup__close-button" aria-label="Закрыть"></button>
+        <button type="button" class="popup__close-button" id="popup__close-button-profile" aria-label="Закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="send-profile">
-          <input type="text" name="name" class="popup__field popup__field_type_name" value="" placeholder="">
-          <input type="text" name="about" class="popup__field popup__field_type_about" value="" placeholder="">
-          <button type="submit" class="popup__button-submit">Сохранить</button>
+        <form class="popup__form" id="popup__form-profile" name="send-profile">
+          <input type="text" name="name" class="popup__field popup__field_type_name" id="popup__field_type_name-profile" value="" placeholder="">
+          <input type="text" name="about" class="popup__field popup__field_type_about" id="popup__field_type_about-profile" value="" placeholder="">
+          <button type="submit" class="popup__button-submit" id="popup__button-submit-profile">Сохранить</button>
         </form>
       </div>
     </div>
@@ -89,6 +89,7 @@
     </template>
   </div>
 </div>
+<script src="scripts/cards.js"></script>
 <script src="scripts/index.js"></script>
 </body>
 </html>
