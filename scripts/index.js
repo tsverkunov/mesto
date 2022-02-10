@@ -31,8 +31,8 @@ function cloneCard(item) {
   cardImage.alt = item.name
   newCard.querySelector('.card__title').textContent = item.name
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
-  const likeButton = newCard.querySelector('.card__heart')
-  likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
+  // const likeButton = newCard.querySelector('.card__heart')
+  // likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
   cardImage.addEventListener('click', () => {
       figureImage.src = item.link
       figureImage.alt = item.name
@@ -86,6 +86,11 @@ closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
 formElement.addEventListener('submit', (e) => handleSubmitProfileForm(e, popupProfile))
 formElementAddCards.addEventListener('submit', (e) => handleSubmitCardsForm(e, popupAddCards))
 closeButtonImage.addEventListener('click', () => closePopup(popupImage))
+cards.addEventListener('click', (e) => {
+  if (e.target.classList.contains('card__heart')) {
+    e.target.classList.toggle('card__heart_active')
+  }
+})
 
 function closePopupWithoutButton(popup) {
   popup.addEventListener('click', (e) => {
