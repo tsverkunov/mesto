@@ -19,8 +19,6 @@ const popupImage = document.querySelector('#popup-image')
 const figureImage = document.querySelector('.popup__image')
 const imageCaption = document.querySelector('.popup__image-caption')
 
-
-
 const cardTemplate = document.querySelector('#card-template').content
 const cards = document.querySelector('.cards')
 
@@ -31,14 +29,12 @@ function cloneCard(item) {
   cardImage.alt = item.name
   newCard.querySelector('.card__title').textContent = item.name
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
-  // const likeButton = newCard.querySelector('.card__heart')
-  // likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
   cardImage.addEventListener('click', () => {
-      figureImage.src = item.link
-      figureImage.alt = item.name
-      imageCaption.textContent = item.name
-      openPopup(popupImage)
-    })
+    figureImage.src = item.link
+    figureImage.alt = item.name
+    imageCaption.textContent = item.name
+    openPopup(popupImage)
+  })
   return newCard
 }
 
@@ -48,6 +44,24 @@ function fillProfileForm() {
   nameInput.value = profileName.textContent
   aboutInput.value = profileAbout.textContent
 }
+
+function closePopupWithEsc(e) {
+  const popupOpened = document.querySelector('.popup_opened')
+    if (e.key === 'Escape') {
+      closePopup(popupOpened)
+    }
+}
+
+function openPopup(popup) {
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closePopupWithEsc)
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened')
+  document.removeEventListener('keydown', closePopupWithEsc)
+}
+
 
 function handleSubmitProfileForm(e, popup) {
   e.preventDefault()
@@ -68,14 +82,6 @@ function handleSubmitCardsForm(e, popup) {
   closePopup(popup)
 }
 
-function openPopup(popup) {
-  popup.classList.add('popup_opened')
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened')
-}
-
 editButton.addEventListener('click', () => {
   fillProfileForm()
   openPopup(popupProfile)
@@ -92,14 +98,17 @@ cards.addEventListener('click', (e) => {
   }
 })
 
-function closePopupWithoutButton(popup) {
-  popup.addEventListener('click', (e) => {
+function closePopupWithOverlay(popup) {
+  popup.addEventListener('click', e => {
     if (e.target === e.currentTarget) {
       closePopup(popup)
     }
   })
 }
 
-closePopupWithoutButton(popupProfile)
-closePopupWithoutButton(popupAddCards)
-closePopupWithoutButton(popupImage)
+const popups = Array.from(document.querySelectorAll('.popup'))
+popups.forEach( popup => {
+  closePopupWithOverlay(popup)
+})
+
+fillProfileForm()
