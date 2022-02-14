@@ -47,9 +47,9 @@ function fillProfileForm() {
 
 function closePopupWithEsc(e) {
   const popupOpened = document.querySelector('.popup_opened')
-    if (e.key === 'Escape') {
-      closePopup(popupOpened)
-    }
+  if (e.key === 'Escape') {
+    closePopup(popupOpened)
+  }
 }
 
 function openPopup(popup) {
@@ -107,7 +107,7 @@ function closePopupWithOverlay(popup) {
 }
 
 const popups = Array.from(document.querySelectorAll('.popup'))
-popups.forEach( popup => {
+popups.forEach(popup => {
   closePopupWithOverlay(popup)
 })
 
