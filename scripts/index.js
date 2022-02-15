@@ -1,5 +1,4 @@
 const popupProfile = document.querySelector('#popup-profile')
-const closeButton = document.querySelector('#popup__close-button-profile')
 const formElement = document.querySelector('#popup__form-profile')
 const nameInput = document.querySelector('#popup__field_type_name-profile')
 const aboutInput = document.querySelector('#popup__field_type_about-profile')
@@ -8,31 +7,36 @@ const profileAbout = document.querySelector('.profile__about')
 const editButton = document.querySelector('.profile__edit-button')
 
 const popupAddCards = document.querySelector('#popup-add-cards')
-const closeButtonAddCards = document.querySelector('#popup__close-button-add-cards')
 const formElementAddCards = document.querySelector('#popup__form-add-cards')
 const nameInputAddCards = document.querySelector('#popup__field_type_name-add-cards')
 const linkInputAddCards = document.querySelector('#popup__field_type_link-add-cards')
 const addButtonAddCards = document.querySelector('.profile__add-button')
 
-const closeButtonImage = document.querySelector('#popup__close-button-image')
 const popupImage = document.querySelector('#popup-image')
 const figureImage = document.querySelector('.popup__image')
 const imageCaption = document.querySelector('.popup__image-caption')
 
 const cardTemplate = document.querySelector('#card-template').content
 const cards = document.querySelector('.cards')
+const buttonSubmit = document.querySelector('#popup__button-submit-add-cards')
+
+function addCardData (item) {
+  figureImage.src = item.link
+  figureImage.alt = item.name
+  imageCaption.textContent = item.name
+}
 
 function cloneCard(item) {
   const newCard = cardTemplate.querySelector('.card').cloneNode(true)
   const cardImage = newCard.querySelector('.card__image')
+  const likeButton = newCard.querySelector('.card__heart')
   cardImage.src = item.link
   cardImage.alt = item.name
   newCard.querySelector('.card__title').textContent = item.name
   newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
+  likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
   cardImage.addEventListener('click', () => {
-    figureImage.src = item.link
-    figureImage.alt = item.name
-    imageCaption.textContent = item.name
+    addCardData(item)
     openPopup(popupImage)
   })
   return newCard
@@ -46,8 +50,8 @@ function fillProfileForm() {
 }
 
 function closePopupWithEsc(e) {
-  const popupOpened = document.querySelector('.popup_opened')
   if (e.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened')
     closePopup(popupOpened)
   }
 }
@@ -61,7 +65,6 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened')
   document.removeEventListener('keydown', closePopupWithEsc)
 }
-
 
 function handleSubmitProfileForm(e, popup) {
   e.preventDefault()
@@ -79,6 +82,7 @@ function handleSubmitCardsForm(e, popup) {
     }))
   }
   formElementAddCards.reset()
+  buttonSubmit.setAttribute('disabled', '')
   closePopup(popup)
 }
 
@@ -87,20 +91,15 @@ editButton.addEventListener('click', () => {
   openPopup(popupProfile)
 })
 addButtonAddCards.addEventListener('click', () => openPopup(popupAddCards))
-closeButton.addEventListener('click', () => closePopup(popupProfile))
-closeButtonAddCards.addEventListener('click', () => closePopup(popupAddCards))
 formElement.addEventListener('submit', (e) => handleSubmitProfileForm(e, popupProfile))
 formElementAddCards.addEventListener('submit', (e) => handleSubmitCardsForm(e, popupAddCards))
-closeButtonImage.addEventListener('click', () => closePopup(popupImage))
-cards.addEventListener('click', (e) => {
-  if (e.target.classList.contains('card__heart')) {
-    e.target.classList.toggle('card__heart_active')
-  }
-})
 
-function closePopupWithOverlay(popup) {
+function checkToClosePopup(popup) {
   popup.addEventListener('click', e => {
-    if (e.target === e.currentTarget) {
+    if (e.target.classList.contains('popup_opened')) {
+      closePopup(popup)
+    }
+    if (e.target.classList.contains('popup__close-button')) {
       closePopup(popup)
     }
   })
@@ -108,7 +107,7 @@ function closePopupWithOverlay(popup) {
 
 const popups = Array.from(document.querySelectorAll('.popup'))
 popups.forEach(popup => {
-  closePopupWithOverlay(popup)
+  checkToClosePopup(popup)
 })
 
 fillProfileForm()
