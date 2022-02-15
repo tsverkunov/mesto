@@ -96,10 +96,7 @@ formElementAddCards.addEventListener('submit', (e) => handleSubmitCardsForm(e, p
 
 function checkToClosePopup(popup) {
   popup.addEventListener('click', e => {
-    if (e.target.classList.contains('popup_opened')) {
-      closePopup(popup)
-    }
-    if (e.target.classList.contains('popup__close-button')) {
+    if (e.target.classList.contains('popup_opened') || e.target.classList.contains('popup__close-button')) {
       closePopup(popup)
     }
   })
