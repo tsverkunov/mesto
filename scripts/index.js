@@ -16,33 +16,59 @@ const popupImage = document.querySelector('#popup-image')
 const figureImage = document.querySelector('.popup__image')
 const imageCaption = document.querySelector('.popup__image-caption')
 
-const cardTemplate = document.querySelector('#card-template').content
 const cards = document.querySelector('.cards')
 const buttonSubmit = document.querySelector('#popup__button-submit-add-cards')
 
-function addCardData (item) {
-  figureImage.src = item.link
-  figureImage.alt = item.name
-  imageCaption.textContent = item.name
+
+class Card {
+  constructor(data, cardSelector) {
+    this._name = data.name
+    this._link = data.link
+    this._cardSelector = cardSelector
+  }
+
+  _addCardData () {
+    figureImage.src = this._link
+    figureImage.alt = this._name
+    imageCaption.textContent = this._name
+  }
+
+  _getTemplate() {
+    return  document
+      .querySelector(this._cardSelector)
+      .content
+      .querySelector('.card')
+      .cloneNode(true)
+  }
+
+  renderCard() {
+    this._element = this._getTemplate()
+    this._cardImage = this._element.querySelector('.card__image')
+    this._cardImage.src = this._link
+    this._cardImage.alt = this._name
+    this._element.querySelector('.card__title').textContent = this._name
+    this._setEventListeners()
+
+    return this._element
+  }
+
+  _setEventListeners() {
+    this._likeButton = this._element.querySelector('.card__heart')
+    this._element.querySelector('.card__delete-button')
+      .addEventListener('click', () => this._element.remove())
+    this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__heart_active'))
+    this._cardImage.addEventListener('click', () => {
+      this._addCardData()
+      openPopup(popupImage)
+    })
+  }
 }
 
-function cloneCard(item) {
-  const newCard = cardTemplate.querySelector('.card').cloneNode(true)
-  const cardImage = newCard.querySelector('.card__image')
-  const likeButton = newCard.querySelector('.card__heart')
-  cardImage.src = item.link
-  cardImage.alt = item.name
-  newCard.querySelector('.card__title').textContent = item.name
-  newCard.querySelector('.card__delete-button').addEventListener('click', () => newCard.remove())
-  likeButton.addEventListener('click', () => likeButton.classList.toggle('card__heart_active'))
-  cardImage.addEventListener('click', () => {
-    addCardData(item)
-    openPopup(popupImage)
-  })
-  return newCard
-}
-
-initialCards.forEach((card) => cards.append(cloneCard(card)))
+initialCards.forEach(item => {
+  const card = new Card(item, '#card-template')
+  const cardElement = card.renderCard()
+  cards.append(cardElement)
+})
 
 function fillProfileForm() {
   nameInput.value = profileName.textContent
@@ -76,10 +102,13 @@ function handleSubmitProfileForm(e, popup) {
 function handleSubmitCardsForm(e, popup) {
   e.preventDefault()
   if (nameInputAddCards.value && linkInputAddCards.value) {
-    cards.prepend(cloneCard({
+    const card = new Card({
       name: nameInputAddCards.value,
       link: linkInputAddCards.value
-    }))
+    }, '#card-template')
+
+    const cardElement = card.renderCard()
+    cards.prepend(cardElement)
   }
   formElementAddCards.reset()
   buttonSubmit.setAttribute('disabled', '')
