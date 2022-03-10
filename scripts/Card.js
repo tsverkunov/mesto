@@ -1,24 +1,14 @@
-import {openPopup} from './utils.js'
-
-const popupImage = document.querySelector('#popup-image')
-const figureImage = document.querySelector('.popup__image')
-const imageCaption = document.querySelector('.popup__image-caption')
 
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._name = data.name
     this._link = data.link
     this._cardSelector = cardSelector
-  }
-
-  _addCardData () {
-    figureImage.src = this._link
-    figureImage.alt = this._name
-    imageCaption.textContent = this._name
+    this._handleCardClick = handleCardClick
   }
 
   _getTemplate() {
-    return  document
+    return document
       .querySelector(this._cardSelector)
       .content
       .querySelector('.card')
@@ -42,8 +32,7 @@ export class Card {
       .addEventListener('click', () => this._element.remove())
     this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__heart_active'))
     this._cardImage.addEventListener('click', () => {
-      this._addCardData()
-      openPopup(popupImage)
+      this._handleCardClick()
     })
   }
 }
