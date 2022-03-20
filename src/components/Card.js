@@ -6,7 +6,6 @@ export class Card {
     this._cardSelector = cardSelector
     this._handleCardClick = handleCardClick
   }
-
   _getTemplate() {
     return document
       .querySelector(this._cardSelector)
@@ -14,7 +13,6 @@ export class Card {
       .querySelector('.card')
       .cloneNode(true)
   }
-
   renderCard() {
     this._element = this._getTemplate()
     this._cardImage = this._element.querySelector('.card__image')
@@ -25,14 +23,11 @@ export class Card {
 
     return this._element
   }
-
   _setEventListeners() {
     this._likeButton = this._element.querySelector('.card__heart')
     this._element.querySelector('.card__delete-button')
       .addEventListener('click', () => this._element.remove())
     this._likeButton.addEventListener('click', () => this._likeButton.classList.toggle('card__heart_active'))
-    this._cardImage.addEventListener('click', () => {
-      this._handleCardClick()
-    })
+    this._cardImage.addEventListener('click', () => this._handleCardClick())
   }
 }
