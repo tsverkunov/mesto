@@ -10,19 +10,19 @@ import {
   editProfileButton,
   formAddCardsElement,
   formProfileElement,
-  nameInput,
-  popupAddCards,
-  popupImage,
-  popupProfile
+  nameInput
 } from '../utils/constants'
 import {PopupWithImage} from '../components/PopupWithImage'
 import PopupWithForm from '../components/PopupWithForm'
 import {UserInfo} from '../components/UserInfo'
 
 const userInfo = new UserInfo({name: '.profile__name', about: '.profile__about'})
-const popupProfileElement = new PopupWithForm(popupProfile, handleSubmitProfileForm)
-const popupAddCardsElement = new PopupWithForm(popupAddCards, handleSubmitCardsForm)
-const popupImageElement = new PopupWithImage(popupImage)
+const popupProfileElement = new PopupWithForm('#popup-profile', handleSubmitProfileForm)
+const popupAddCardsElement = new PopupWithForm('#popup-add-cards', handleSubmitCardsForm)
+const popupImageElement = new PopupWithImage('#popup-image', {
+  figureImage: '.popup__image',
+  imageCaption: '.popup__image-caption'
+})
 
 popupProfileElement.setEventListeners()
 popupAddCardsElement.setEventListeners()
@@ -51,11 +51,10 @@ function fillProfileForm() {
   aboutInput.value = userInfo.getUserInfo().about
 }
 
-
-function handleSubmitProfileForm() {
+function handleSubmitProfileForm(data) {
   userInfo.setUserInfo({
-    name: nameInput.value,
-    about: aboutInput.value
+    name: data.name,
+    about: data.about
   })
   popupProfileElement.close()
 }

@@ -1,11 +1,16 @@
 import Popup from './Popup'
-import {figureImage, imageCaption} from '../utils/constants'
 
-export class PopupWithImage extends Popup{
-  open (name, link) {
+export class PopupWithImage extends Popup {
+  constructor(popupSelector, {figureImage, imageCaption}) {
+    super(popupSelector)
+    this._figureImage = this._popup.querySelector(figureImage)
+    this._imageCaption = this._popup.querySelector(imageCaption)
+  }
+
+  open(name, link) {
     super.open()
-    figureImage.src = link
-    figureImage.alt = name
-    imageCaption.textContent = name
+    this._figureImage.src = link
+    this._figureImage.alt = name
+    this._imageCaption.textContent = name
   }
 }

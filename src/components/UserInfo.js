@@ -1,5 +1,3 @@
-import {profileAbout, profileName} from '../utils/constants'
-
 export class UserInfo {
   constructor({name, about}) {
     this._name = document.querySelector(name)
@@ -14,7 +12,7 @@ export class UserInfo {
   }
 
   setUserInfo({name, about}) {
-    profileName.textContent = name
-    profileAbout.textContent = about
+    this._name.textContent = name
+    this._about.textContent = about
   }
 }
