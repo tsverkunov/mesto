@@ -10,17 +10,23 @@ import {
   editProfileButton,
   formAddCardsElement,
   formProfileElement,
-  linkInputAddCards,
   nameInput,
-  nameInputAddCards,
   popupAddCards,
   popupImage,
-  popupProfile,
-  profileAbout,
-  profileName
+  popupProfile
 } from '../utils/constants'
 import {PopupWithImage} from '../components/PopupWithImage'
 import PopupWithForm from '../components/PopupWithForm'
+import {UserInfo} from '../components/UserInfo'
+
+const userInfo = new UserInfo({name: '.profile__name', about: '.profile__about'})
+const popupProfileElement = new PopupWithForm(popupProfile, handleSubmitProfileForm)
+const popupAddCardsElement = new PopupWithForm(popupAddCards, handleSubmitCardsForm)
+const popupImageElement = new PopupWithImage(popupImage)
+
+popupProfileElement.setEventListeners()
+popupAddCardsElement.setEventListeners()
+popupImageElement.setEventListeners()
 
 const createCard = (data) => {
   const cardElement = new Card(data, '#card-template', () => {
@@ -41,24 +47,25 @@ const cardSection = new Section({
 cardSection.renderItems()
 
 function fillProfileForm() {
-  nameInput.value = profileName.textContent
-  aboutInput.value = profileAbout.textContent
+  nameInput.value = userInfo.getUserInfo().name
+  aboutInput.value = userInfo.getUserInfo().about
 }
 
 
 function handleSubmitProfileForm() {
-  profileName.textContent = nameInput.value
-  profileAbout.textContent = aboutInput.value
-
+  userInfo.setUserInfo({
+    name: nameInput.value,
+    about: aboutInput.value
+  })
   popupProfileElement.close()
 }
 
 function handleSubmitCardsForm(data) {
-    const cardElement = createCard({
-      name: data.name,
-      link: data.about
-    })
-    cardSection.addItem(cardElement)
+  const cardElement = createCard({
+    name: data.name,
+    link: data.about
+  })
+  cardSection.addItem(cardElement)
   popupAddCardsElement.close()
 }
 
@@ -94,13 +101,3 @@ const enableValidation = (config) => {
 enableValidation({
   formSelector: '.popup__form'
 })
-
-
-//
-const popupProfileElement = new PopupWithForm(popupProfile, handleSubmitProfileForm)
-const popupAddCardsElement = new PopupWithForm(popupAddCards, handleSubmitCardsForm)
-const popupImageElement = new PopupWithImage(popupImage)
-
-popupProfileElement.setEventListeners()
-popupAddCardsElement.setEventListeners()
-popupImageElement.setEventListeners()
