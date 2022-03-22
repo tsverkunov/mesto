@@ -1,11 +1,11 @@
-import Popup from "./Popup";
-import {figureImage, imageCaption} from "../utils/constants";
+import Popup from './Popup'
+import {figureImage, imageCaption} from '../utils/constants'
 
-export default class PopupWithImage extends Popup{
-  open () {
-    figureImage.src = this._link
-    figureImage.alt = this._name
-    imageCaption.textContent = this._name
+export class PopupWithImage extends Popup{
+  open (name, link) {
+    super.open()
+    figureImage.src = link
+    figureImage.alt = name
+    imageCaption.textContent = name
   }
 }
-// этот класс не закончен

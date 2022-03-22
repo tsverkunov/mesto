@@ -2,8 +2,6 @@ import './index.css'
 import {Card} from '../components/Card'
 import {FormValidator} from '../components/FormValidator'
 import Section from '../components/Section'
-import Popup from '../components/Popup'
-import {handleCardClick} from '../utils/utils.js'
 import {initialCards} from '../utils/cards.js'
 import {
   aboutInput,
@@ -16,68 +14,62 @@ import {
   nameInput,
   nameInputAddCards,
   popupAddCards,
-  popupList,
+  popupImage,
   popupProfile,
   profileAbout,
   profileName
 } from '../utils/constants'
+import {PopupWithImage} from '../components/PopupWithImage'
+import PopupWithForm from '../components/PopupWithForm'
 
+const createCard = (data) => {
+  const cardElement = new Card(data, '#card-template', () => {
+    popupImageElement.open(data.name, data.link)
+  })
+  return cardElement.renderCard()
+}
 
-const cardList = new Section({
+const renderCard = (data, container) => {
+  const card = createCard(data)
+  container.prepend(card)
+}
+
+const cardSection = new Section({
   items: initialCards,
-  renderer: cardItem => {
-    const card = new Card(cardItem, '#card-template', handleCardClick)
-    const cardElement = card.renderCard()
-    cardList.setItem(cardElement)
-  }
+  renderer: renderCard
 }, cardListSection)
-cardList.renderItems()
+cardSection.renderItems()
 
 function fillProfileForm() {
   nameInput.value = profileName.textContent
   aboutInput.value = profileAbout.textContent
 }
 
-function handleSubmitProfileForm(e, popup) {
-  e.preventDefault()
+
+function handleSubmitProfileForm() {
   profileName.textContent = nameInput.value
   profileAbout.textContent = aboutInput.value
-  const popupElement = new Popup(popup)
-  popupElement.close()
+
+  popupProfileElement.close()
 }
 
-function handleSubmitCardsForm(e, popup) {
-  e.preventDefault()
-  if (nameInputAddCards.value && linkInputAddCards.value) {
-    const card = new Card({
-      name: nameInputAddCards.value,
-      link: linkInputAddCards.value
-    }, '#card-template', handleCardClick)
-    const cardElement = card.renderCard()
-    cardList.addItem(cardElement)
-  }
-  formAddCardsElement.reset()
-  const popupElement = new Popup(popup)
-  popupElement.close()
+function handleSubmitCardsForm(data) {
+    const cardElement = createCard({
+      name: data.name,
+      link: data.about
+    })
+    cardSection.addItem(cardElement)
+  popupAddCardsElement.close()
 }
 
 editProfileButton.addEventListener('click', () => {
   fillProfileForm()
   formValidators[formProfileElement.getAttribute('name')].resetValidation()
-  const popupElement = new Popup(popupProfile)
-  popupElement.open()
+  popupProfileElement.open()
 })
 addCardsButton.addEventListener('click', () => {
   formValidators[formAddCardsElement.getAttribute('name')].resetValidation()
-  const popupElement = new Popup(popupAddCards)
-  popupElement.open()
-})
-formProfileElement.addEventListener('submit', (e) => handleSubmitProfileForm(e, popupProfile))
-formAddCardsElement.addEventListener('submit', (e) => handleSubmitCardsForm(e, popupAddCards))
-
-popupList.forEach(popup => {
-  const popupElement = new Popup(popup)
-  popupElement.setEventListeners()
+  popupAddCardsElement.open()
 })
 
 fillProfileForm()
@@ -104,3 +96,11 @@ enableValidation({
 })
 
 
+//
+const popupProfileElement = new PopupWithForm(popupProfile, handleSubmitProfileForm)
+const popupAddCardsElement = new PopupWithForm(popupAddCards, handleSubmitCardsForm)
+const popupImageElement = new PopupWithImage(popupImage)
+
+popupProfileElement.setEventListeners()
+popupAddCardsElement.setEventListeners()
+popupImageElement.setEventListeners()

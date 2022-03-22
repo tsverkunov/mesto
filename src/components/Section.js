@@ -7,11 +7,8 @@ export default class Section {
   }
   renderItems() {
     this._initialCards.forEach(item => {
-      this._renderer(item)
+      this._renderer(item, this._container)
     })
-  }
-  setItem(element) {
-    this._container.append(element)
   }
   addItem(element) {
     this._container.prepend(element)

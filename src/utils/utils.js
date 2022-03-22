@@ -1,10 +1,8 @@
-import {figureImage, imageCaption, popupImage} from "./constants";
-import Popup from "../components/Popup";
+import {popupImage} from './constants'
+import {PopupWithImage} from '../components/PopupWithImage'
 
-export function handleCardClick () {
-  figureImage.src = this._link
-  figureImage.alt = this._name
-  imageCaption.textContent = this._name
-  const popupElement = new Popup(popupImage)
-  popupElement.open()
+export function handleCardClick (data) {
+  const popupElement = new PopupWithImage(popupImage)
+  popupElement.open(data.name, data.link)
 }
+
