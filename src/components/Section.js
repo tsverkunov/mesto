@@ -5,10 +5,14 @@ export default class Section {
     this._renderer = renderer
   }
 
-  renderItems() {
+  renderListItem() {
     this._initialCards.forEach(item => {
       this._renderer(item, this._container)
     })
+  }
+
+  renderItem(element) {
+    this._container.append(element)
   }
 
   addItem(element) {
