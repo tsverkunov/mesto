@@ -10,6 +10,7 @@ export class Card {
     this._id = data.id
     this._userId = data.userId
     this._ownerId = data.ownerId
+    this._notAvailableImg = data._notAvailableImg
   }
 
   _getTemplate() {
@@ -24,6 +25,7 @@ export class Card {
     this._element = this._getTemplate()
     this._cardImage = this._element.querySelector('.card__image')
     this._cardImage.src = this._link
+    this._cardImage.onerror = () => this._cardImage.src = 'https://more-show.ru/upload/not-available.png'
     this._cardImage.alt = this._name
     this._element.querySelector('.card__title').textContent = this._name
     this._setEventListeners()

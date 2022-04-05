@@ -30,7 +30,6 @@ export default class PopupWithForm extends Popup {
   }
 
   preloader(boolean) {
-    console.log(this._text )
     if (boolean) {
       this._buttonSubmit.textContent = 'Сохранение...'
     } else {

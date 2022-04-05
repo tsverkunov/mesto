@@ -145,14 +145,10 @@ const link = data.link
 editProfileButton.addEventListener('click', () => {
   fillProfileForm()
   formValidators[formProfileElement.getAttribute('name')].resetValidation()
-  console.log(formValidators[formProfileElement.getAttribute('name')])
-
   popupProfileElement.open()
 })
 addCardsButton.addEventListener('click', () => {
-  console.log(formValidators)
   formValidators[formAddCardsElement.getAttribute('name')].resetValidation()
-  console.log(formValidators[formAddCardsElement.getAttribute('name')])
   popupAddCardsElement.open()
 })
 
