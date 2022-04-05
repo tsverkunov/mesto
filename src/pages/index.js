@@ -6,16 +6,18 @@ import {
   aboutInput,
   addCardsButton,
   cardListSection,
+  editAvatar,
   editProfileButton,
   formAddCardsElement,
+  formEditAvatarElement,
   formProfileElement,
-  nameInput,
-  editAvatar, formEditAvatarElement
+  nameInput
 } from '../utils/constants'
 import {PopupWithImage} from '../components/PopupWithImage'
 import PopupWithForm from '../components/PopupWithForm'
 import {UserInfo} from '../components/UserInfo'
 import {api} from '../components/Api'
+import PopupWithConfirmation from '../components/PopupWithConfirmation'
 
 let userId
 
@@ -51,7 +53,7 @@ const userInfo = new UserInfo({
 })
 const popupProfileElement = new PopupWithForm('#popup-profile', handleSubmitProfileForm)
 const popupAddCardsElement = new PopupWithForm('#popup-add-cards', handleSubmitCardsForm)
-const popupConfirm = new PopupWithForm('#popup-delete-card')
+const popupConfirm = new PopupWithConfirmation('#popup-delete-card') //
 const popupEditAvatarElement = new PopupWithForm('#popup-edit-avatar', handleSubmitEditAvatar)
 
 const popupImageElement = new PopupWithImage('#popup-image', {
@@ -74,7 +76,7 @@ const createCard = (data) => {
     },
     (id) => {
       popupConfirm.open()
-      popupConfirm.changeSubmitHandler(() => {
+      popupConfirm.addSubmitHandler(() => {
         api.deleteCard(id)
           .then(() => {
             cardElement.deleteCard()
@@ -83,12 +85,12 @@ const createCard = (data) => {
       })
     },
     (id) => {
-      if(cardElement.isLiked()) {
+      if (cardElement.isLiked()) {
         api.deleteLike(id)
           .then(res => cardElement.setLikes(res.likes))
       } else {
-      api.addLike(id)
-        .then(res => cardElement.setLikes(res.likes))
+        api.addLike(id)
+          .then(res => cardElement.setLikes(res.likes))
       }
     }
   )
@@ -136,9 +138,9 @@ function handleSubmitCardsForm(data) {
 }
 
 function handleSubmitEditAvatar(data) {
-const link = data.link
+  const link = data.link
   api.editAvatar(link)
-    .then(res =>  userInfo.setUserInfo(res.name, res.about, res.avatar))
+    .then(res => userInfo.setUserInfo(res.name, res.about, res.avatar))
   popupEditAvatarElement.close()
 }
 
