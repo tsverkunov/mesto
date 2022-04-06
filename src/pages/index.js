@@ -50,7 +50,7 @@ const userInfo = new UserInfo({
 })
 const popupProfileElement = new PopupWithForm('#popup-profile', handleSubmitProfileForm)
 const popupAddCardsElement = new PopupWithForm('#popup-add-cards', handleSubmitCardsForm)
-const popupConfirm = new PopupWithConfirmation('#popup-delete-card') //
+const popupConfirm = new PopupWithConfirmation('#popup-delete-card')
 const popupEditAvatarElement = new PopupWithForm('#popup-edit-avatar', handleSubmitEditAvatar)
 
 const popupImageElement = new PopupWithImage('#popup-image', {
@@ -141,13 +141,15 @@ function handleSubmitCardsForm(data) {
 
 function handleSubmitEditAvatar(data) {
   const link = data.link
+  // popupEditAvatarElement.preloader(true)
   api.editAvatar(link)
-    .then(res => () => {
+    .then(res => {
       userInfo.setUserInfo(res.name, res.about, res.avatar)
-
-      popupEditAvatarElement.close()  //
+      popupEditAvatarElement.close()
     })
     .catch(console.log)
+
+    // .finally(() =>   popupEditAvatarElement.preloader(false))
 }
 
 editProfileButton.addEventListener('click', () => {
