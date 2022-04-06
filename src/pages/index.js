@@ -20,7 +20,6 @@ import {api} from '../components/Api'
 import PopupWithConfirmation from '../components/PopupWithConfirmation'
 
 let userId
-
 const objectCreatorForCard = data => {
   return {
     name: data.name,
@@ -32,19 +31,17 @@ const objectCreatorForCard = data => {
   }
 }
 
-api.getProfile()
-  .then(res => {
-    userInfo.setUserInfo(res.name, res.about, res.avatar)
-    userId = res._id
-  })
-
-api.getInitialCards()
-  .then(cardList => {
+Promise.all([api.getProfile(), api.getInitialCards()])
+  .then(responseList => {
+    const [data, cardList] = responseList
+    userInfo.setUserInfo(data.name, data.about, data.avatar)
+    userId = data._id
     cardList.forEach(data => {
       const card = createCard(objectCreatorForCard(data))
       cardSection.renderItem(card)
     })
   })
+  .catch(console.log)
 
 const userInfo = new UserInfo({
   name: '.profile__name',
@@ -82,15 +79,18 @@ const createCard = (data) => {
             cardElement.deleteCard()
             popupConfirm.close()
           })
+          .catch(console.log)
       })
     },
     (id) => {
       if (cardElement.isLiked()) {
         api.deleteLike(id)
           .then(res => cardElement.setLikes(res.likes))
+          .catch(console.log)
       } else {
         api.addLike(id)
           .then(res => cardElement.setLikes(res.likes))
+          .catch(console.log)
       }
     }
   )
@@ -120,9 +120,10 @@ function handleSubmitProfileForm(data) {
   api.editProfile(name, about)
     .then(res => {
       userInfo.setUserInfo(res.name, res.about, res.avatar)
-      popupProfileElement.preloader(false)
       popupProfileElement.close()
     })
+    .catch(console.log)
+    .finally(() => popupProfileElement.preloader(false))
 }
 
 function handleSubmitCardsForm(data) {
@@ -132,16 +133,21 @@ function handleSubmitCardsForm(data) {
     .then(res => {
       const cardElement = createCard(objectCreatorForCard(res))
       cardSection.addItem(cardElement)
-      popupAddCardsElement.preloader(false)
       popupAddCardsElement.close()
     })
+    .catch(console.log)
+    .finally(() => popupAddCardsElement.preloader(false))
 }
 
 function handleSubmitEditAvatar(data) {
   const link = data.link
   api.editAvatar(link)
-    .then(res => userInfo.setUserInfo(res.name, res.about, res.avatar))
-  popupEditAvatarElement.close()
+    .then(res => () => {
+      userInfo.setUserInfo(res.name, res.about, res.avatar)
+
+      popupEditAvatarElement.close()  //
+    })
+    .catch(console.log)
 }
 
 editProfileButton.addEventListener('click', () => {
