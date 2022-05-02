@@ -141,15 +141,14 @@ function handleSubmitCardsForm(data) {
 
 function handleSubmitEditAvatar(data) {
   const link = data.link
-  // popupEditAvatarElement.preloader(true)
+  popupEditAvatarElement.preloader(true)
   api.editAvatar(link)
     .then(res => {
       userInfo.setUserInfo(res.name, res.about, res.avatar)
       popupEditAvatarElement.close()
     })
     .catch(console.log)
-
-    // .finally(() =>   popupEditAvatarElement.preloader(false))
+    .finally(() =>   popupEditAvatarElement.preloader(false))
 }
 
 editProfileButton.addEventListener('click', () => {
